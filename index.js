@@ -15,6 +15,6 @@ setTimeout(() => {
     const childProcess = spawn(comando, argumentos, { detached: true, stdio: 'ignore' });
     childProcess.on('exit', function() {
         console.log('Finalizado.')
-        fs.writeFileSync('./id.txt', id + 1);
+        fs.writeFileSync('./id.txt', (id + 1).toString());
     })
 })
