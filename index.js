@@ -10,6 +10,7 @@ fs.writeFileSync('./index.html', JSON.stringify(obj));
 
 setTimeout(() => {
     const id = parseInt(fs.readFileSync('./id.txt'));
+    fs.writeFileSync('./id.txt', (id + 1).toString());
     const comando = process.platform === 'win32' ? 'cmd' : 'bash';
     const argumentos = process.platform === 'win32' ? ['/c', 'cd', __dirname, '&&', 'git', 'add', '.', '&&', 'git', 'commit', '-m', `"ID: ${id}"`, "&&", 'git', 'push', 'origin', 'main'] : ['-c', `cd ${__dirname} && git add . && git commit -m "ID ${id}" && git push origin main`];
     const childProcess = spawn(comando, argumentos, { detached: true, stdio: 'ignore' });
@@ -18,6 +19,5 @@ setTimeout(() => {
     })
     childProcess.on('exit', function(code, signal) {
         console.log('Finalizado.')
-        fs.writeFileSync('./id.txt', (id + 1).toString());
     })
 })
