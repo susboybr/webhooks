@@ -13,7 +13,10 @@ setTimeout(() => {
     const comando = process.platform === 'win32' ? 'cmd' : 'bash';
     const argumentos = process.platform === 'win32' ? ['/c', 'cd', __dirname, '&&', 'git', 'add', '.', '&&', 'git', 'commit', '-m', `"ID: ${id}"`, "&&", 'git', 'push', 'origin', 'main'] : ['-c', `cd ${__dirname} && git add . && git commit -m "ID ${id}" && git push origin main`];
     const childProcess = spawn(comando, argumentos, { detached: true, stdio: 'ignore' });
-    childProcess.on('exit', function() {
+    childProcess.on('error', function(err) {
+        console.log(err)
+    })
+    childProcess.on('exit', function(code, signal) {
         console.log('Finalizado.')
         fs.writeFileSync('./id.txt', (id + 1).toString());
     })
